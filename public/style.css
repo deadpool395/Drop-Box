@@ -1,0 +1,112 @@
+/* Reset some basic styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body{
+  background-color: rgb(232, 232, 232);
+}
+
+/* Main container for centered content */
+.container {
+  max-width: 500px;
+  margin: 5% auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  box-shadow: 0 4px 8px rgba(35, 101, 255, 0.2);
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Header styling */
+h1 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Form label styling */
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Form input and select styling */
+input[type="text"],
+input[type="password"],
+input[type="file"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Submit button styling */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Logout button */
+.logout-btn {
+  margin-top: 20px;
+  background-color: #f44336;
+}
+
+.logout-btn:hover {
+  background-color: #e53935;
+}
+
+
+/* Styling for Success Page */
+.success-details {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e0ffe0;
+  border: 1px solid #4CAF50;
+  border-radius: 8px;
+  text-align: center;
+  color: #333;
+}
+
+.success-details p {
+  font-size: 1.1rem;
+  color: #4CAF50;
+}
+
+/* Button Styling on Success Page */
+.success-details button {
+  width: 90%;
+  padding: 10px;
+  margin: 10px auto;
+  display: block;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.success-details button:hover {
+  background-color: #45a049;
+}
