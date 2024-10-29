@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-const aws = require('aws-sdk');
+const { S3Client } = require('@aws-sdk/client-s3');
 const session = require('express-session');
 const path = require('path');
 require('dotenv').config();
@@ -13,21 +13,20 @@ const PORT = process.env.PORT || 3000;
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "password";
 
-// AWS S3 configuration
-aws.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// AWS S3 configuration using S3Client from SDK v3
+const s3 = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
-const s3 = new aws.S3();
-
-// Multer-S3 setup for file uploads to S3
 const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
-    acl: 'public-read',  // Set permissions as needed
+    // Remove `acl: 'public-read'` line
     key: function (req, file, cb) {
       const className = req.body.class || 'general';
       const filePath = `${className}/${file.originalname}`;
@@ -35,6 +34,7 @@ const upload = multer({
     }
   })
 });
+
 
 // Middleware for sessions
 app.use(session({
@@ -47,10 +47,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to check if user is authenticated
-function isAuthenticated(req, res, next) {
-  if (req.session.isAdmin) return next();
-  res.redirect('/login');
-}
+
 
 // Route to render upload success page
 app.get('/upload-success', (req, res) => {
@@ -58,7 +55,7 @@ app.get('/upload-success', (req, res) => {
 });
 
 // File upload route with class selection, storing files in S3
-app.post('/upload', isAuthenticated, upload.single('file'), (req, res) => {
+app.post('/upload', upload.single('file'), (req, res) => {
   const className = req.body.class;
   if (!req.file || !className) {
     return res.status(400).send('No file uploaded or class not selected.');
@@ -69,11 +66,7 @@ app.post('/upload', isAuthenticated, upload.single('file'), (req, res) => {
 });
 
 // Logout route
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/login');
-  });
-});
+
 
 // Start the server
 app.listen(PORT, () => {
