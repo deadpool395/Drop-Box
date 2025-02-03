@@ -16,11 +16,19 @@
     <h2>Upload a File</h2>
     
     <p>Rename the file with your name and respective classes before uploading, then click "Upload File".</p>
+    <h3>Check your option before Uploading<style> h3{ color:red; } </style></h3>
     <form action="/upload" method="POST" enctype="multipart/form-data">
+      
       <label for="class">Select the option</label>
       <select name="class" id="class" required>
         <option value="Teacher Resources">Submission of Teacher Resources</option>
         <option value="Unit-Test-Term-3" selected>Submission of QP-Unit Test Term 3</option>
+        <option value="annual-exam-question-paper">Annual Exam QP</option>
+        <option value="current-affairs-term-3">Current Affairs</option>
+        <option value="dictaion-eng-term-3">Dictation Words English</option>
+        <option value="dictaion-mal-term-3">Dictation Words Malayalam</option>
+        <option value="dictaion-hindi-term-3">Dictation Words Hindi</option>
+        <option value="computer-viva-term-3">Computer Viva Questions</option>
 <!--         <option value="skill exam">04-11-2024-Submission of topics for the skill exam -2</option>
         <option value="Submission of question paper">11-11-2024-Submission of question paper - Term - II</option>
         <option value="Submission of GK Current Affairs">15-11-2024-Submission of GK Current Affairs</option>
