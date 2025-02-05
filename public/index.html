@@ -21,8 +21,9 @@
       
       <label for="class">Select the option</label>
       <select name="class" id="class" required>
+        <option value="" disabled selected>Select the list</option>
         <option value="Teacher Resources">Submission of Teacher Resources</option>
-        <option value="Unit-Test-Term-3" selected>Submission of QP-Unit Test Term 3</option>
+        <option value="Unit-Test-Term-3" >Submission of QP-Unit Test Term 3</option>
         <option value="annual-exam-question-paper">Annual Exam QP</option>
         <option value="current-affairs-term-3">Current Affairs</option>
         <option value="dictaion-eng-term-3">Dictation Words English</option>
@@ -30,14 +31,30 @@
         <option value="dictaion-hindi-term-3">Dictation Words Hindi</option>
         <option value="computer-viva-term-3">Computer Viva Questions</option>
         <option value="skill-exam-term-3">Skill Exam Topics</option>
-<!--         <option value="skill exam">04-11-2024-Submission of topics for the skill exam -2</option>
-        <option value="Submission of question paper">11-11-2024-Submission of question paper - Term - II</option>
-        <option value="Submission of GK Current Affairs">15-11-2024-Submission of GK Current Affairs</option>
-        <option value="Submission of dictation words">18-11-2024-Submission of dictation words</option> -->
         <!-- <option value="Class6">Class 6</option> -->
         
         <!-- Add more classes as needed -->
       </select>
+      <label for="subClass">Select Your Class:</label>
+        <select id="subClass" name="subClass" required>
+          <option value="" disabled selected>Select the class</option>
+          <option value="lkg">LKG</option>
+          <option value="ukg">UKG</option>
+          <option value="class1">Class 1</option>
+          <option value="class2">Class 2</option>
+          <option value="class3">Class 3</option>
+          <option value="class4">Class 4</option>
+          <option value="class5">Class 5</option>
+          <option value="class6">Class 6</option>
+          <option value="class7">Class 7</option>
+          <option value="class8">Class 8</option>
+          <option value="class9">Class 9</option>
+          <option value="class10">Class 10</option>
+          <option value="class11">Class 11</option>
+          <option value="class12">Class 12</option>
+          
+        <!-- Sub-Class options will be populated dynamically -->
+        </select>
       <br><br>
       <input type="file" name="file" required>
       <button type="submit">Upload File</button>
