@@ -29,7 +29,8 @@ const upload = multer({
     // Remove `acl: 'public-read'` line
     key: function (req, file, cb) {
       const className = req.body.class || 'general';
-      const filePath = `${className}/${file.originalname}`;
+      const subClass = req.body.subClass || "root";
+      const filePath = `${className}/${subClass}/${file.originalname}`;
       cb(null, filePath);
     }
   })
