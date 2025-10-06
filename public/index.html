@@ -7,24 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
- 
+
   <div class="container">
     <h1>St Francis School 
       <br>Vadakkencherry <br>Drop-Box 25-26</h1>
   </div>
+
   <div class="container">
     <h2>Upload a File</h2>
-    
     <p>Rename the file with your name, subject and respective classes before uploading, then click "Upload File".</p>
-    <h3>Check your option before Uploading<style> h3{ color:red; } </style></h3>
+    <h3>Check your option before Uploading</h3>
+
     <form action="/upload" method="POST" enctype="multipart/form-data">
       
-      <label for="class">Select the option</label>
+      <!-- Main category -->
+      <label for="class">Select the option:</label>
       <select name="class" id="class" required>
         <option value="" disabled selected>Select the list</option>
         <option value="Teacher Resources">Submission of Teacher Resources</option>
-        <option value="Unit-Test-Term-1" >Submission of QP-Unit Test Term 1</option>
-        <option value="Unit-Test-Term-2" >Submission of QP-Unit Test Term 2</option>
+        <option value="Unit-Test-Term-1">Submission of QP-Unit Test Term 1</option>
+        <option value="Unit-Test-Term-2">Submission of QP-Unit Test Term 2</option>
         <option value="qp-term1">Submission of QP(Term 1)</option>
         <option value="qp-term2">Submission of QP(Term 2)</option>
         <option value="annual-exam-question-paper">Annual Exam QP(Term 3)</option>
@@ -52,39 +54,89 @@
         <option value="hindi-skill-exam-term-1">Hindi skill Exam Topics(Term 1)</option>
         <option value="hindi-skill-exam-term-2">Hindi skill Exam Topics(Term 2)</option>
         <option value="hindi-skill-exam-term-3">Hindi skill Exam Topics(Term 3)</option>
-        <!-- <option value="Class6">Class 6</option> -->
-        
-        <!-- Add more classes as needed -->
       </select>
+
+      <!-- Sub-Class (actual student class) -->
       <label for="subClass">Select Your Class:</label>
-        <select id="subClass" name="subClass" required>
-          <option value="" disabled selected>Select the class</option>
-          <option value="lkg">LKG</option>
-          <option value="ukg">UKG</option>
-          <option value="class1">Class 1</option>
-          <option value="class2">Class 2</option>
-          <option value="class3">Class 3</option>
-          <option value="class4">Class 4</option>
-          <option value="class5">Class 5</option>
-          <option value="class6">Class 6</option>
-          <option value="class7">Class 7</option>
-          <option value="class8">Class 8</option>
-          <option value="class9">Class 9</option>
-          <option value="class10">Class 10</option>
-          <option value="class11">Class 11</option>
-          <option value="class12">Class 12</option>
-          
-        <!-- Sub-Class options will be populated dynamically -->
-        </select>
+      <select id="subClass" name="subClass" required onchange="updateSubjects()">
+        <option value="" disabled selected>Select the class</option>
+        <option value="LKG">LKG</option>
+        <option value="UKG">UKG</option>
+        <option value="Class 1">Class 1</option>
+        <option value="Class 2">Class 2</option>
+        <option value="Class 3">Class 3</option>
+        <option value="Class 4">Class 4</option>
+        <option value="Class 5">Class 5</option>
+        <option value="Class 6">Class 6</option>
+        <option value="Class 7">Class 7</option>
+        <option value="Class 8">Class 8</option>
+        <option value="Class 9">Class 9</option>
+        <option value="Class 10">Class 10</option>
+        <option value="Class 11">Class 11</option>
+        <option value="Class 12">Class 12</option>
+      </select>
+
+      <!-- Third dropdown (Subject) -->
+      <label for="subject">Select Subject:</label>
+      <select id="subject" name="subject" required disabled>
+        <option value="" disabled selected>Select the subject</option>
+      </select>
+
       <br><br>
       <input type="file" name="file" required>
       <button type="submit">Upload File</button>
     </form>
   </div>
-  <div class="container"><footer>
-    <p>👨🏻‍💻Powered by Daniel👨🏻‍💻</p>
-    
-  </footer></div>
+
+  <div class="container">
+    <footer>
+      <p>👨🏻‍💻 Powered by Daniel 👨🏻‍💻</p>
+    </footer>
+  </div>
+
+  <script>
+    // Subjects mapped to classes
+    const subjectMap = {
+      "LKG": ["English Oral", "Maths Oral", "GK Oral","Malayalam Oral","English Reading"],
+      "UKG": ["English Written", "Maths Written", "GK Oral","Malayalam Written","English Reading","English Dictation","Malayalam Dictation"],
+      "Class 1": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","G K", "Maths", "E.V.S","Malayalam", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 2": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 3": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","G K", "Maths", "E.V.S","Malayalam","Hindi","General Science","Social Studies", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 4": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","G K", "Maths", "E.V.S","Malayalam","Hindi","General Science","Social Studies", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 5": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","G K", "Maths", "E.V.S","Malayalam","Hindi","General Science","Social Studies", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 6": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 7": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 8": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 9": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 10": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 11": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+      "Class 12": ["English I","English II","Moral Science","English Dictation","Malayalam Dictation","Hindi Dictation", "GK Current Affairs","Physics","Chemistry","Biology","Geography","History/Civics","G K", "Maths", "E.V.S","Malayalam","Hindi", "Computer","Computer-Viva","Malayalam Skill","English Skill","Hindi Skill"],
+    };
+
+    // Populate subjects dynamically
+    function updateSubjects() {
+      const subClass = document.getElementById("subClass").value;
+      const subjectDropdown = document.getElementById("subject");
+
+      // Reset subject list
+      subjectDropdown.innerHTML = '<option value="" disabled selected>Select the subject</option>';
+
+      if (subjectMap[subClass]) {
+        subjectMap[subClass].forEach(subject => {
+          let opt = document.createElement("option");
+          opt.value = subject;
+          opt.textContent = subject;
+          subjectDropdown.appendChild(opt);
+        });
+        subjectDropdown.disabled = false;
+      } else {
+        subjectDropdown.disabled = true;
+      }
+    }
+  </script>
+
+  <style>
+    h3 { color: red; }
+  </style>
 </body>
 </html>
-
