@@ -9,11 +9,11 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Admin credentials
+// Admin credentials (optional if you add login)
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "password";
 
-// AWS S3 configuration using S3Client from SDK v3
+// AWS S3 configuration (SDK v3)
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -22,54 +22,52 @@ const s3 = new S3Client({
   },
 });
 
+// Middleware for parsing form data
+app.use(express.urlencoded({ extended: true }));
+
+// Multer-S3 setup — builds the S3 path dynamically from 3 dropdowns
 const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
-    // Remove `acl: 'public-read'` line
     key: function (req, file, cb) {
-      const className = req.body.class || 'general';
-      const subClass = req.body.subClass || "root";
-      const filePath = `${className}/${subClass}/${file.originalname}`;
+      const className = req.body.class || 'General';
+      const subClass = req.body.subClass || 'Section';
+      const subject = req.body.subject || 'Subject';
+      const filePath = `${className}/${subClass}/${subject}/${file.originalname}`;
       cb(null, filePath);
     }
   })
 });
 
-
-// Middleware for sessions
+// Session middleware
 app.use(session({
   secret: 'secret-key',
   resave: false,
   saveUninitialized: true
 }));
 
-// Serve static files (for HTML pages and CSS)
+// Serve static frontend files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to check if user is authenticated
+// Upload route (with all dropdown validations)
+app.post('/upload', upload.single('file'), (req, res) => {
+  const { class: className, subClass, subject } = req.body;
 
+  if (!req.file || !className || !subClass || !subject) {
+    return res.status(400).send('All fields are required (Class, Section, Subject, File).');
+  }
 
-// Route to render upload success page
+  console.log(`✅ Uploaded: ${req.file.originalname} to ${className}/${subClass}/${subject}`);
+  res.redirect('/upload-success');
+});
+
+// Success page
 app.get('/upload-success', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
-// File upload route with class selection, storing files in S3
-app.post('/upload', upload.single('file'), (req, res) => {
-  const className = req.body.class;
-  if (!req.file || !className) {
-    return res.status(400).send('No file uploaded or class not selected.');
-  }
-
-  // Redirect to success page after upload
-  res.redirect('/upload-success');
-});
-
-// Logout route
-
-
-// Start the server
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
